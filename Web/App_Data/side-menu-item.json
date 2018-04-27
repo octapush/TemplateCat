@@ -1,0 +1,14 @@
+﻿[
+  {
+    "Target": "Dashboard",
+    "Title": "Dashboard",
+    "Icon": "fa-heartbeat",
+    "Childs": []
+  },
+  {
+    "Target": "Graph",
+    "Title": "Graphs",
+    "Icon": "fa-bar-chart",
+    "Childs": []
+  }
+]

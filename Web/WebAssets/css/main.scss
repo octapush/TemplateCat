@@ -1,0 +1,384 @@
+﻿$header-height: 50px;
+$footer-height: 0px;
+$sidebar-width: 230px;
+$header-background-color: black;
+$padding-left-sidebar: 5px;
+$nav-height: 30px;
+
+@mixin transition($move) {
+  -webkit-transition: $move;
+     -moz-transition: $move;
+      -o-transition:  $move;
+          transition: $move;
+}
+
+@font-face {
+    font-family: "Helvetica Neue Medium";
+    src: url('../fonts/helvetica-neue-medium.ttf');
+}
+
+@font-face {
+    font-family: "Helvetica Neue";
+    src: url('../fonts/helvetica-neue.ttf');
+}
+
+@font-face {
+    font-family: "UniverseCondensedMedium";
+    src: url('../fonts/Univers-Condensed-Medium.ttf');
+}
+
+.clear {
+    clear: both;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+}
+
+.test{
+    float:left;
+}
+
+.page {
+    height: 100%;
+    width: 100%;
+
+    a {
+        text-decoration: none;
+    }
+
+    .header {
+        a:hover{
+            background-color: $header-background-color;
+        }
+        .left {
+            float: left;
+            width: $sidebar-width;
+            padding-top: 5px;
+            padding-bottom: 5px;
+            padding-left: $padding-left-sidebar;
+            background-color: $header-background-color;
+
+            .app-logo {
+                float: left;
+                width: 175px;
+                height: 40px;
+                background-image: url('../images/trakindo-logo.png');
+            }
+
+            .app-quick-access {
+                cursor: pointer;
+                float: left;
+                margin-left: 5px;
+                width: 40px;
+                height: 32px;
+                background-color: #f2c811;
+                font-size: 25px;
+                font-weight: bolder;
+                text-align: center;
+                padding-top: 8px;
+
+                &:hover {
+                    background-color: #FBD944;
+                    font-size: 30px;
+                    padding-top: 4px;
+                    height: 36px;
+                }
+            }
+
+            .quick-access-menus {
+                display: none;
+                background-color: #484848;
+                padding: 10px;
+                position: fixed;
+                left: 185px;
+                top: 50px;
+                -webkit-box-shadow: 0px 2px 10px 5px rgba(0,0,0,0.75);
+                -moz-box-shadow: 0px 2px 10px 5px rgba(0,0,0,0.75);
+                box-shadow: 0px 2px 10px 5px rgba(0,0,0,0.75);
+
+                .access-menu {
+                    cursor: pointer;
+                    width: 115px;
+                    height: 115px;
+                    background-color: #f2c811;
+                    color: #000000;
+                    font-size: 85px;
+                    line-height: 85px;
+                    text-align: center;
+                    padding-top: 5px;
+                    float: left;
+                    margin-left: 10px;
+
+                    &.first {
+                        margin-left: 0px;
+                    }
+
+                    &:hover {
+                        a {
+                            i, .caption {
+                                @include transition(all 0.5s ease);
+                                color: white;
+                            }
+                        }
+                    }
+
+                    a {
+                        color: black;
+                        text-decoration: none;
+
+                        i {
+                            @include transition(all 0.5s ease);
+                            font-weight: bolder;
+                            font-family: "Helvetica Neue";
+
+                            &:hover {
+                                color: white;
+                            }
+                        }
+
+                        .caption {
+                            @include transition(all 0.5s ease);
+                            font-weight: bolder;
+                            font-size: 12px;
+                            position: relative;
+                            font-family: "Helvetica Neue";
+                            font-size: 15px;
+                            line-height: 10px;
+
+                            &:hover {
+                                color: white;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        .right {
+            float: left;
+            height: $header-height;
+            width: calc(100% - #{$sidebar-width} - #{$padding-left-sidebar});
+            background-color: $header-background-color;
+
+            .app-title {
+                @include transition(all 0.5s ease);
+                padding-left: $padding-left-sidebar;
+                float: left;
+                font-family: "Helvetica Neue";
+                color: white;
+                font-weight: bolder;
+                font-size: 20px;
+                vertical-align: middle;
+                line-height: 50px;
+            }
+
+            .toolbar {
+                padding: 2px;
+                float: right;
+
+                .menu {
+                    @include transition(all 0.5s ease);
+                    float: left;
+                    color: white;
+                    font-size: 25px;
+                    font-weight: bolder;
+                    height: calc(50px - 2*2px);
+                    width: 50px;
+                    border-left: 1px solid white;
+                    cursor: pointer;
+                    text-align: center;
+
+                    i {
+                        line-height: 50px;
+                    }
+
+                    &:hover {
+                        background-color: #ffcc11;
+                    }
+                }
+            }
+        }
+    }
+
+    .middle {
+        width: 100%;
+        height: calc(100% - #{$header-height});
+        background-color: white;
+        background-color: green;
+
+        .sidebar {
+            float: left;
+            width: $sidebar-width;
+            min-height: 100%;
+            background-color: #484848;
+            padding-left: $padding-left-sidebar;
+            padding-right: $padding-left-sidebar;
+            padding-top: $padding-left-sidebar;
+
+            .handle-bar {
+                @include transition(all 0.5s ease);
+                color: white;
+                font-size: 30px;
+                cursor: pointer;
+                width: 30px;
+                height: 30px;
+                text-align: center;
+                line-height: 30px;
+                margin-bottom: 5px;
+
+                &:hover {
+                    background-color: #ACABAB;
+                    color: black;
+                }
+            }
+
+            .menu-wrapper {
+                @include transition(all 0.5s ease);
+                display: block;
+                cursor: pointer;
+                color: white;
+                height: $nav-height;
+                padding-top: 5px;
+                border-bottom: 1px solid white;
+
+                .icon {
+                    text-align: center;
+                    margin-left: 3px;
+                    width: 25px;
+                    height: 25px;
+                    float: left;
+                    font-size: 20px;
+                    line-height: 25px;
+                    font-weight: bolder;
+                    color: white;
+                }
+
+                .caption {
+                    padding-left: 3px;
+                    font-family: "Helvetica Neue";
+                    font-size: 13px;
+                    font-weight: bolder;
+                    float: left;
+                    height: 25px;
+                    line-height: 25px;
+                    width: calc(100% - 25px - 25px - 5px - 5px);
+
+                    a {
+                        text-decoration: none;
+                        color: white;
+                    }
+                }
+
+                .arrow {
+                    text-align: center;
+                    font-weight: bolder;
+                    width: 25px;
+                    height: 25px;
+                    float: left;
+                    font-size: 15px;
+                    line-height: 25px;
+                }
+
+                &:hover {
+                    background-color: #ffcc11;
+                    color: #484848;
+
+                    .icon {
+                        color: #484848;
+                    }
+                }
+
+                &.single {
+                    a {
+                        text-decoration: none;
+
+                        .arrow {
+                            display: none;
+                        }
+
+                        .caption {
+                            width: calc(100% - 25px - 5px - 5px);
+                            color: white;
+                        }
+                    }
+
+                    &:hover {
+                        a {
+                            .caption {
+                                color: #484848;
+                            }
+                        }
+                    }
+                }
+            }
+
+            .child-menu {
+                width: 100%;
+
+                .child-menu-wrapper {
+                    @include transition(all 0.5s ease);
+                    display: block;
+                    cursor: pointer;
+                    color: white;
+                    height: $nav-height;
+                    padding-top: 5px;
+                    padding-left: 20px;
+
+                    .icon {
+                        text-align: center;
+                        margin-left: 3px;
+                        width: 25px;
+                        height: 25px;
+                        float: left;
+                        font-size: 20px;
+                        line-height: 25px;
+                        font-weight: bolder;
+                        color: white;
+
+                        &:hover {
+                        }
+                    }
+
+                    .caption {
+                        padding-left: 3px;
+                        font-family: "Helvetica Neue";
+                        font-size: 13px;
+                        font-weight: bolder;
+                        float: left;
+                        height: 25px;
+                        line-height: 25px;
+                        width: calc(100% - 25px - 25px - 20px - 5px - 5px);
+
+                        a {
+                            text-decoration: none;
+                            color: white;
+                        }
+                    }
+
+                    &:hover {
+                        background-color: #ffcc11;
+                        color: #484848;
+
+                        a {
+                            color: #484848;
+                        }
+                    }
+                }
+            }
+        }
+
+        .content {
+            float: left;
+            width: calc(100% - #{$sidebar-width} - 2 * #{$padding-left-sidebar});
+            height: calc(100%);
+            background-color: white;
+        }
+    }
+
+    .footer {
+        height: 0px;
+        background-color: gray;
+    }
+}
