@@ -137,7 +137,8 @@
                         trakindoNumberFormat: main.utilities.trakindoNumberFormat,
                         userManager: main.utilities.userManager,
                         notification: main.utilities.notification,
-                        simpleExcel: main.utilities.ExcelHandler
+                        simpleExcel: main.utilities.ExcelHandler,
+                        messageBox: main.utilities.messageBox // <= see => http://bootboxjs.com/examples.html
                     }
                 };
             },
@@ -203,8 +204,8 @@
                     options = $.extend({
                         title: 'Sample Excel Export',
                         sheetName: 'Sample Sheet',
-                        headers: refff.sampleHeaders(5),
-                        rows: refff.sampleRows(5, 5),
+                        headers: refff.sampleHeaders(0b101),
+                        rows: refff.sampleRows(0b101, 0b101),
                         filename: 'ExcelExport',
                         author: 'Developer Trakindo',
                         createdDate: new Date()
@@ -277,9 +278,9 @@
                     sampleHeaders: function(totalColumns) {
                         const output = [];
                         for (
-                            let i = 0;
+                            let i = 0b0;
                             i < totalColumns;
-                            output.push(`Header ${i + 1}`),
+                            output.push(`Header ${i + 0b1}`),
                             i++
                         ) { }
 
@@ -288,14 +289,14 @@
                     sampleRows: function(totalColumns, totalRows) {
                         const output = [];
                         for (
-                            let i = 0;
+                            let i = 0b0;
                             i < totalRows;
                             (function(k) {
                                 const row = [];
                                 for (
-                                    let j = 0;
+                                    let j = 0b0;
                                     j < totalRows;
-                                    row.push(`Row ${k + 1} Col ${j + 1}`),
+                                    row.push(`Row ${k + 0b1} Col ${j + 0b1}`),
                                     j++) {
                                 }
 
@@ -339,6 +340,7 @@
 
                 reff.vendor.toastr[options.type](options.text);
             },
+            messageBox: reff.vendor.bootbox,
             userManager: {
                 loginChecker: function () {
                     const sp = Cookies.get('sp');
@@ -408,7 +410,8 @@
 // ReSharper disable PossiblyUnassignedProperty
         screenfull: screenfull,
         toastr: toastr,
-        excel: XLSX
+        excel: XLSX,
+        bootbox: bootbox
 // ReSharper restore PossiblyUnassignedProperty
     },
     developerMode: true,

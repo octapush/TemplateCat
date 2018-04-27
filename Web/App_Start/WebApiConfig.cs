@@ -49,7 +49,7 @@ namespace Web
                 "api/{controller}/{action}/{id}",
                 new {id = RouteParameter.Optional}
             );
-            //config.MapHttpAttributeRoutes();
+            
 
             //config.Routes.MapHttpRoute(
             //    name: "DefaultApi",
