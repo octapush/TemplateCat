@@ -13,11 +13,11 @@ namespace Web
                 .XmlFormatter
                 .SupportedMediaTypes
                 .Remove(
-                    item: config
+                    config
                         .Formatters
                         .XmlFormatter
                         .SupportedMediaTypes
-                        .FirstOrDefault(predicate: t => t.MediaType == "application/xml")
+                        .FirstOrDefault(t => t.MediaType == "application/xml")
                 );
 
 
@@ -25,29 +25,29 @@ namespace Web
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
-                name: "ApiById",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new {id = RouteParameter.Optional,},
-                constraints: new {id = @"^[0-9]+$"}
+                "ApiById",
+                "api/{controller}/{id}",
+                new {id = RouteParameter.Optional,},
+                new {id = @"^[0-9]+$"}
             );
 
             config.Routes.MapHttpRoute(
-                name: "ApiByName",
-                routeTemplate: "api/{controller}/{action}/{name}",
-                defaults: null,
-                constraints: new {name = @"^[a-z]+$"}
+                "ApiByName",
+                "api/{controller}/{action}/{name}",
+                null,
+                new {name = @"^[a-z]+$"}
             );
 
             config.Routes.MapHttpRoute(
-                name: "ApiByAction",
-                routeTemplate: "api/{controller}/{action}",
-                defaults: new {action = "Get"}
+                "ApiByAction",
+                "api/{controller}/{action}",
+                new {action = "Get"}
             );
 
             config.Routes.MapHttpRoute(
-                name: "ActionApi",
-                routeTemplate: "api/{controller}/{action}/{id}",
-                defaults: new {id = RouteParameter.Optional}
+                "ActionApi",
+                "api/{controller}/{action}/{id}",
+                new {id = RouteParameter.Optional}
             );
             //config.MapHttpAttributeRoutes();
 
