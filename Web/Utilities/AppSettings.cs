@@ -37,12 +37,5 @@ namespace Web.Utilities
         {
             return HttpContext.Current.Server.MapPath($"~/App_Data/{subPath}");
         }
-
-        public static string GetConnectionString()
-        {
-            var cs = GetSettings().connectionString;
-            return
-                $"Server={cs.server};Database={cs.database};User Id={cs.uid};Password={cs.pid};Provider={cs.provider}";
-        }
     }
 }
