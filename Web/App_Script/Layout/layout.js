@@ -13,26 +13,29 @@
         sideMenu: (schema) => {
           if (!schema) return;
 
-          $('ul.sidebar-menu[data-widget="tree"]').html(menuItemBuilder(schema));
+          ((util) => {
+            $('ul.sidebar-menu[data-widget="tree"]').html(util.menuItemBuilder(util, schema));
 
-          main.ui.patcher.sidebar.setSelected.apply();
-          main.events.sidebarItem.onClick.apply();
+            main.ui.patcher.sidebar.setSelected.apply();
+            main.events.sidebarItem.onClick.apply();
+          })({
+            menuItemBuilder: (util, menuItems, isRoot) => {
+              let output = '';
 
-          menuItemBuilder(menuItems, isRoot = true) => {
-            let output = '';
+              isRoot = (isRoot === null || isRoot === undefined) ? true : isRoot;
 
-            $.each(menuItems,
+              $.each(menuItems,
                 (k, v) => {
-                  const menuText = v.Childs.length === 0b0
-                      ? v.Title
-                      : `
+                  const menuText = v.Childs.length === 0b0 ?
+                    v.Title :
+                    `
                           <span>${v.Title}</span>
                           <span class="pull-right-container">
                               <i class="fa fa-angle-left pull-right"></i>
                           </span>
                       `;
 
-                  const childMenus = `<ul class="treeview-menu">${menuItemBuilder(v.Childs, false)}</ul>`;
+                  const childMenus = `<ul class="treeview-menu">${util.menuItemBuilder(util, v.Childs, false)}</ul>`;
 
                   const menuDom = `
                                     <li class="${isRoot && v.Childs.length > 0b0 ? 'treeview' : ''}">
@@ -47,8 +50,9 @@
                   output += menuDom;
                 });
 
-            return output;
-          }
+              return output;
+            }
+          });
         }
       },
       patcher: {
@@ -63,8 +67,8 @@
         sidebar: {
           setSelected: () => {
             $(`ul.sidebar-menu a[href="${reff.w.location.href}"]`)
-                .closest('li')
-                .addClass('active');
+              .closest('li')
+              .addClass('active');
           }
         }
       }
@@ -89,10 +93,10 @@
         ready: () => {
           $(() => {
             setTimeout(
-                () => {
-                  main.ui.patcher.loading.hide.apply();
-                },
-                0b1011101110 * 0b10
+              () => {
+                main.ui.patcher.loading.hide.apply();
+              },
+              0b1011101110 * 0b10
             );
 
             main.events.navbar.screenfull.onClick.apply();
@@ -103,32 +107,36 @@
         screenfull: {
           onClick: () => {
             $('a#app-full-screen-toggle').on('click',
-                () => {
-                  reff.vendor.screenfull.toggle($('body')[0b0]);
-                });
+              () => {
+                reff.vendor.screenfull.toggle($('body')[0b0]);
+              });
           }
         }
       },
       sidebarItem: {
         onClick: () => {
           $('ul.sidebar-menu a').on('click',
-              (e) => {
-                const that = $(this);
+            (e) => {
+              const that = $(this);
 
-                e.preventDefault();
-                main.ui.patcher.loading.show.apply();
+              e.preventDefault();
+              main.ui.patcher.loading.show.apply();
 
-                setTimeout(() => {
+              setTimeout(() => {
                   reff.w.location.href = that.attr('href');
                 },
-                    0b1011101110 * 0b10);
-              });
+                0b1011101110 * 0b10);
+            });
         }
       }
     },
     utilities: {
       GlobalRegistrar: () => {
         reff.w[reff.registerNamespace] = {
+          ui: {
+            notification: main.utilities.notification,
+            messageBox: main.utilities.messageBox // <== see ==> http://bootboxjs.com/examples.html
+          },
           vendor: reff.vendor,
           utilities: {
             callbackRunner: main.utilities.callbackRunner,
@@ -136,27 +144,27 @@
             numberFormat: main.utilities.numberFormat,
             trakindoNumberFormat: main.utilities.trakindoNumberFormat,
             userManager: main.utilities.userManager,
-            notification: main.utilities.notification,
-            simpleExcel: main.utilities.ExcelHandler,
-            messageBox: main.utilities.messageBox // <= see => http://bootboxjs.com/examples.html
+            simpleExcel: main.utilities.ExcelHandler
           }
         };
       },
       getSideMenuItems: (cb) => {
-        const nConfig = reff.services.configurations.sideMenu;
-        nConfig.url = main.utilities.createUri(nConfig.url);
+        let nConfig = reff.services.configurations.sideMenu;
+        nConfig = $.extend({
+          url: main.utilities.createUri(nConfig.url)
+        }, nConfig);
 
         $.ajax(nConfig)
-            .done((r) => {
-              r = JSON.parse(r.output);
-              if (cb) cb(r);
-            })
-            .fail((j, t, e) => {
-              console.log(j, t, e);
-            });
+          .done((r) => {
+            r = JSON.parse(r.output);
+            if (cb) cb(r);
+          })
+          .fail((j, t, e) => {
+            console.log(j, t, e);
+          });
       },
       // ReSharper disable UnusedParameter
-      callbackRunner: (cb, arg1, arg2, arg3)=>  {
+      callbackRunner: (cb, arg1, arg2, arg3) => {
         // ReSharper restore UnusedParameter
         const arg = arguments;
         if (cb) cb(arg);
@@ -164,13 +172,16 @@
       createUri: (subPath) => {
         subPath = subPath || '';
 
-        return ((wl, wlo) => {
-          const getBaseUri = ()=>  {
-            return -0b1 !== wlo.indexOf('localhost') ? `${wlo}/` : `${wlo}/${wl.pathname.split('/')[0b1]}/`;
-          }
+        return ((util) => {
+          return `${util.getBaseUri(util)}${subPath}`;
 
-          return `${getBaseUri()}${subPath}`;
-        })(reff.w.location, reff.w.location.origin);
+        })({
+          wl: reff.w.location,
+          wlo: reff.w.location.origin,
+          getBaseUri: (util) => {
+            return -0b1 !== util.wlo.indexOf('localhost') ? `${util.wlo}/` : `${util.wlo}/${util.wl.pathname.split('/')[0b1]}/`;
+          }
+        });
       },
       numberFormat: (number, decimals, decPoint, thousandsSep) => {
         const n = !isFinite(+number) ? 0b0 : +number;
@@ -196,22 +207,22 @@
 
         return s.join(dec);
       },
-      trakindoNumberFormat: (numb)  => {
+      trakindoNumberFormat: (numb) => {
         return main.utilities.numberFormat(parseFloat(numb).toFixed(0b10), 0b10, '.', ',');
       },
       ExcelHandler: (options) => {
-        ((refff) => {
+        ((util) => {
           options = $.extend({
             title: 'Sample Excel Export',
             sheetName: 'Sample Sheet',
-            headers: refff.sampleHeaders(0b101),
-            rows: refff.sampleRows(0b101, 0b101),
+            headers: util.sampleHeaders(0b101),
+            rows: util.sampleRows(0b101, 0b101),
             filename: 'ExcelExport',
             author: 'Developer Trakindo',
             createdDate: new Date()
           }, options);
 
-          refff.createExcel(options);
+          util.createExcel(options);
         })({
           createExcel: (opt) => {
             const xlu = reff.vendor.excel.utils;
@@ -228,21 +239,18 @@
             wb.Sheets[opt.sheetName] = xlu.aoa_to_sheet(this.compileData(opt));
 
             saveAs(
-                new Blob(
-                    [
-                        this.stringToArrayBuffer(reff.vendor.excel.write(
-                                wb,
-                                {
-                                  bookType: 'xlsx',
-                                  type: 'binary'
-                                })
-                        )
-                    ],
-                    {
-                      type: 'application/octet-stream'
-                    }
-                ),
-                `${opt.filename}.xlsx`
+              new Blob(
+                [
+                  this.stringToArrayBuffer(reff.vendor.excel.write(
+                    wb, {
+                      bookType: 'xlsx',
+                      type: 'binary'
+                    }))
+                ], {
+                  type: 'application/octet-stream'
+                }
+              ),
+              `${opt.filename}.xlsx`
             );
           },
           compileData: (opt) => {
@@ -266,45 +274,35 @@
             const view = new Uint8Array(buf);
 
             for (
-                let i = 0b0;
-                i < s.length;
-                view[i] = s.charCodeAt(i) & 0b11111111,
-                i++
-            ) {
-            }
+              let i = 0b0; i < s.length; view[i] = s.charCodeAt(i) & 0b11111111,
+              i++
+            ) {}
 
             return buf;
           },
           sampleHeaders: (totalColumns) => {
             const output = [];
             for (
-                let i = 0b0;
-                i < totalColumns;
-                output.push(`Header ${i + 0b1}`),
-                i++
-            ) { }
+              let i = 0b0; i < totalColumns; output.push(`Header ${i + 0b1}`),
+              i++
+            ) {}
 
             return output;
           },
           sampleRows: (totalColumns, totalRows) => {
             const output = [];
             for (
-                let i = 0b0;
-                i < totalRows;
-                ((k) => {
-                    const row = [];
-                    for (
-                        let j = 0b0;
-                        j < totalRows;
-                        row.push(`Row ${k + 0b1} Col ${j + 0b1}`),
-                        j++) {
-            }
+              let i = 0b0; i < totalRows;
+              ((k) => {
+                const row = [];
+                for (
+                  let j = 0b0; j < totalRows; row.push(`Row ${k + 0b1} Col ${j + 0b1}`),
+                  j++) {}
 
-                    output.push(row);
-            })(i),
-                i++
-            ) {
-            }
+                output.push(row);
+              })(i),
+              i++
+            ) {}
 
             return output;
           }
@@ -312,32 +310,32 @@
       },
       notification: (options) => {
         options = $.extend({
-          type: 'success',
-          text: 'Hello World!',
+            type: 'success',
+            text: 'Hello World!',
 
-          closeButton: true,
-          debug: false,
-          newestOnTop: false,
-          progressBar: true,
-          positionClass: 'toast-top-right',
-          preventDuplicates: false,
+            closeButton: true,
+            debug: false,
+            newestOnTop: false,
+            progressBar: true,
+            positionClass: 'toast-top-right',
+            preventDuplicates: false,
 
-          onclick: null,
+            onclick: null,
 
-          showDuration: 0b100101100,
-          hideDuration: 0b1111101000,
-          timeOut: 0b1001110001000,
-          extendedTimeOut: 0b1111101000,
+            showDuration: 0b100101100,
+            hideDuration: 0b1111101000,
+            timeOut: 0b1001110001000,
+            extendedTimeOut: 0b1111101000,
 
-          showEasing: 'swing',
-          hideEasing: 'linear',
-          showMethod: 'fadeIn',
-          hideMethod: 'fadeOut'
-        },
-            options
+            showEasing: 'swing',
+            hideEasing: 'linear',
+            showMethod: 'fadeIn',
+            hideMethod: 'fadeOut'
+          },
+          options
         );
-        reff.vendor.toastr.options = options;
 
+        reff.vendor.toastr.options = options;
         reff.vendor.toastr[options.type](options.text);
       },
       messageBox: reff.vendor.bootbox,
@@ -353,26 +351,26 @@
           nConfig.url = main.utilities.createUri(nConfig.url);
 
           $
-              .ajax(nConfig)
-              .done((r) => {
-                r = JSON.parse(r.GetUserProfileCallResult);
+            .ajax(nConfig)
+            .done((r) => {
+              r = JSON.parse(r.GetUserProfileCallResult);
 
-                if (r.result === true)
-                  main.utilities.notification({
-                    text: `Welcome ${r.userprofiles.Employee_Name}!!!`
-                  });
+              if (r.result === true)
+                main.utilities.notification({
+                  text: `Welcome ${r.userprofiles.Employee_Name}!!!`
+                });
 
-                else
-                  reff.w.location.href = `${reff.services.auth.loginWithReturn}${main.utilities.createUri()}`;
-
-                if (cb) cb(r);
-              })
-              // ReSharper disable UnusedParameter
-              .fail((j, t, e) => {
-                // ReSharper restore UnusedParameter
-                alert('Can not initialize user profile.\n\nRedirecting to login page.');
+              else
                 reff.w.location.href = `${reff.services.auth.loginWithReturn}${main.utilities.createUri()}`;
-              });
+
+              if (cb) cb(r);
+            })
+            // ReSharper disable UnusedParameter
+            .fail((j, t, e) => {
+              // ReSharper restore UnusedParameter
+              alert('Can not initialize user profile.\n\nRedirecting to login page.');
+              reff.w.location.href = `${reff.services.auth.loginWithReturn}${main.utilities.createUri()}`;
+            });
         }
       }
     }
@@ -391,7 +389,9 @@
       sideMenu: {
         url: 'api/FileReader',
         method: 'GET',
-        data: { 'subPath': 'side-menu-item.json' },
+        data: {
+          'subPath': 'side-menu-item.json'
+        },
         dataType: 'json',
         headers: {
           'Content-Type': 'application/json'
