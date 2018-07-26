@@ -238,12 +238,11 @@
 					origin: window.location.origin,
 					pathname: window.location.pathname,
 					getBaseUri: util => {
-						return -0b1 !== util.origin.indexOf('localhost') 
-							? `${util.origin}/`
-							: `${util.origin}/${util.pathname.split('/')[0b1]}/`
+						const arrPathName = util.pathname.split('/');
+						return `${util.origin}/${1 < arrPathName.length ? arrPathName[0b1] + '/' : ''}`;
 					},
 					init: util => {
-						return `${util.getBaseUri}${util.subPath}`;
+						return `${util.getBaseUri(util)}${util.subPath}`;
 					}
 				});
 			},
