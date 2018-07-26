@@ -29,11 +29,11 @@
 									const menuText = v.Childs.length === 0b0 ?
 										v.Title :
 										`
-                          <span>${v.Title}</span>
-                          <span class="pull-right-container">
-                              <i class="fa fa-angle-left pull-right"></i>
-                          </span>
-                      `;
+											<span>${v.Title}</span>
+											<span class="pull-right-container">
+												<i class="fa fa-angle-left pull-right"></i>
+											</span>
+										`;
 
 									const childMenus = `<ul class="treeview-menu">${util.menuItemBuilder(util, v.Childs, false)}</ul>`;
 
@@ -194,7 +194,8 @@
 				reff.w[reff.registerNamespace] = {
 					ui: {
 						notification: main.utilities.notification,
-						messageBox: main.utilities.messageBox // <== see ==> http://bootboxjs.com/examples.html
+						messageBox: main.utilities.messageBox, // <== see ==> http://bootboxjs.com/examples.html,
+						modalizer: main.utilities.modalizer // <== see ==> https://saribe.github.io/eModal/#demo
 					},
 					vendor: reff.vendor,
 					utilities: {
@@ -232,19 +233,17 @@
 			createUri: subPath => {
 				return (util => {
 					return util.init(util);
-
 				})({
-					sub: subPath || '',
-					rwl: reff.w.location,
-					rwo: reff.w.location.origin,
-					rdl: reff.domain,
-					stg: reff.stage,
-					init: util => {
-						return `${util.baseUri(util)}${util.sub}`;
+					subPath: subPath || '',
+					origin: window.location.origin,
+					pathname: window.location.pathname,
+					getBaseUri: util => {
+						return -0b1 !== util.origin.indexOf('localhost') 
+							? `${util.origin}/`
+							: `${util.origin}/${util.pathname.split('/')[0b1]}/`
 					},
-					baseUri: util => {
-						const sub = util.rdl[util.stg].sub ? `${util.rdl[util.stg].sub}/` : '';
-						return `${util.rdl[util.stg].main}/${sub}`;
+					init: util => {
+						return `${util.getBaseUri}${util.subPath}`;
 					}
 				});
 			},
@@ -404,6 +403,7 @@
 				reff.vendor.toastr[options.type](options.text);
 			},
 			messageBox: reff.vendor.bootbox,
+			modalizer: reff.vendor.eModal,
 			userManager: {
 				loginChecker: () => {
 					const sp = Cookies.get('sp');
@@ -476,28 +476,10 @@
 		screenfull: screenfull,
 		toastr: toastr,
 		excel: XLSX,
-		bootbox: bootbox
+		bootbox: bootbox,
+		eModal: eModal
 		// ReSharper restore PossiblyUnassignedProperty
 	},
-	domain: {
-		local: {
-			main: 'http://localhost:83',
-			sub: ''
-		},
-		dev: {
-			main: 'http://localhost:83',
-			sub: ''
-		},
-		qa: {
-			main: 'http://localhost:83',
-			sub: ''
-		},
-		prod: {
-			main: 'http://localhost:83',
-			sub: ''
-		}
-	},
-	stage: 'local', // => 'local' || 'dev' || 'qa' || 'prod',
 	developerMode: true,
 	registerAsGlobal: true,
 	registerNamespace: 'templateHelper'
