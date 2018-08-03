@@ -1648,6 +1648,8 @@
     <Content Include="WebAssets\lib\eModal\.travis.yml" />
     <Content Include="WebAssets\lib\eModal\bower.json" />
     <Content Include="WebAssets\lib\eModal\package.json" />
+    <Content Include="App_Script\Layout\layout.min.js" />
+    <Content Include="App_Script\Layout\layout.min.js.map" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

@@ -2,23 +2,23 @@
 	'use strict';
 
 	const main = {
-		register: () => {
-			if (reff.registerAsGlobal)
-				main.utilities.GlobalRegistrar.apply();
-
-			main.events.register.apply();
-		},
+		register: () => (util => {
+			util.rag && util.mug.apply();
+			util.mer.apply();
+		})({
+			rag: reff.registerAsGlobal,
+			mer: main.events.register,
+			mug: main.utilities.GlobalRegistrar
+		}),
 		ui: {
 			builder: {
 				sideMenu: schema => {
-					if (!schema) return;
-
-					(util => {
-						$('ul.sidebar-menu[data-widget="tree"]').html(util.menuItemBuilder(util, schema));
-
-						main.ui.patcher.sidebar.setSelected.apply();
-						main.events.sidebarItem.onClick.apply();
-					})({
+					schema && (util => util.init(util))({
+						init: util => (x => $.each(x, k => x[k].apply()))({
+							write: () => $('ul.sidebar-menu[data-widget="tree"]').html(util.menuItemBuilder(util, schema)),
+							mps: main.ui.patcher.sidebar.setSelected,
+							msc: main.events.sidebarItem.onClick
+						}),
 						menuItemBuilder: (util, menuItems, isRoot) => {
 							let output = '';
 
@@ -38,14 +38,14 @@
 									const childMenus = `<ul class="treeview-menu">${util.menuItemBuilder(util, v.Childs, false)}</ul>`;
 
 									const menuDom = `
-                                    <li class="${isRoot && v.Childs.length > 0b0 ? 'treeview' : ''}">
-                                        <a href="${main.utilities.createUri(v.Target)}">
-                                            ${v.Icon !== '' ? `<i class="fa ${v.Icon}"></i>` : ''}
-                                            <span>${menuText}</span>
-                                        </a>
-                                        ${v.Childs.length > 0b0 ? childMenus : ''}
-                                    </li>
-                                `;
+														<li class="${isRoot && v.Childs.length > 0b0 ? 'treeview' : ''}">
+															<a href="${main.utilities.createUri(v.Target)}">
+																${v.Icon !== '' ? `<i class="fa ${v.Icon}"></i>` : ''}
+																<span>${menuText}</span>
+															</a>
+															${v.Childs.length > 0b0 ? childMenus : ''}
+														</li>
+													`;
 
 									output += menuDom;
 								});
@@ -57,156 +57,106 @@
 			},
 			patcher: {
 				loading: {
-					hide: () => {
-						$('div.loading-container').fadeOut(0b1011101110);
-					},
-					show: () => {
-						$('div.loading-container').fadeIn(0b1011101110);
-					}
+					hide: () => $('div.loading-container').fadeOut(0b1011101110),
+					show: () => $('div.loading-container').fadeIn(0b1011101110)
 				},
 				sidebar: {
-					setSelected: () => {
-						$(`ul.sidebar-menu a[href="${reff.w.location.href}"]`)
-							.closest('li')
-							.addClass('active');
-					}
+					setSelected: () => $(`ul.sidebar-menu a[href="${reff.w.location.href}"]`)
+						.closest('li')
+						.addClass('active')
 				}
 			}
 		},
 		events: {
-			register: () => {
-				main.events.document.register.apply();
-			},
+			register: () => (util => $.each(util, k => util[k].apply()))({
+				mdr: main.events.document.register
+			}),
 			document: {
-				register: () => {
-					(util => {
-						util.init(util);
-					})({
-						rdm: reff.developerMode,
-						mum: main.utilities.userManager,
-						mdl: main.events.document,
+				register: () => (util => util.init(util))({
+					rdm: reff.developerMode,
+					mum: main.utilities.userManager.loginChecker,
+					mdl: main.events.document.load,
+					init: util => {
+						!util.rdm && util.mum.apply();
+						util.mdl.apply();
+					}
+				}),
+				load: () => (util => util.init(util))({
+					mut: main.utilities.getSideMenuItems,
+					mub: main.ui.builder.sideMenu,
+					med: main.events.document.ready,
+					init: util => util.mut((data) => {
+						util.mub(data);
+						util.med.apply();
+					})
+				}),
+				ready: () => $(
+					(util => util.init(util))({
+						mpl: main.ui.patcher.loading.hide,
+						mns: main.events.navbar.screenfull.onClick,
+						mpm: main.events.panel.maximize.onClick,
 						init: util => {
-							if (true !== util.rdm)
-								util.mum.loginChecker.apply();
+							setTimeout(() => util.mpl.apply(), 0b1011101110 * 0b10);
 
-							util.mdl.load.apply();
+							util.mns.apply();
+							util.mpm.apply();
 						}
-					});
-				},
-				load: () => {
-					(util => {
-						util.init(util);
-					})({
-						mut: main.utilities,
-						mub: main.ui.builder,
-						med: main.events.document,
-						init: util => {
-							util.mut.getSideMenuItems((data) => {
-								util.mub.sideMenu(data);
-								util.med.ready.apply();
-							});
-						}
-					});
-				},
-				ready: () => {
-					$(
-						(util => {
-							util.init(util);
-						})({
-							mpl: main.ui.patcher.loading,
-							mns: main.events.navbar.screenfull,
-							mpm: main.events.panel.maximize,
-							init: util => {
-								setTimeout(
-									() => {
-										util.mpl.hide.apply();
-									},
-									0b1011101110 * 0b10
-								);
-
-								util.mns.onClick.apply();
-								util.mpm.onClick.apply();
-							}
-						})
-					);
-				}
+					})
+				)
 			},
 			navbar: {
 				screenfull: {
-					onClick: () => {
-						$('a#app-full-screen-toggle').on('click',
-							() => {
-								reff.vendor.screenfull.toggle($('body')[0b0]);
-							}
-						);
-					}
+					onClick: () => $('a#app-full-screen-toggle').on('click', () =>
+						reff.vendor.screenfull.toggle($('body')[0b0])
+					)
 				}
 			},
 			panel: {
 				maximize: {
-					onClick: () => {
-						$('.btn-box-tool[data-widget="maximize"]').on('click', e => {
-							(util => {
-								util.init(util);
-							})({
-								dom: $(e.currentTarget),
-								init: util => {
-									util
-										.dom
-										.closest('.row')
-										.fadeOut(0b101011110, () => {
-											util
-												.dom
-												.closest('.box')
-												.toggleClass('fullwindow-document-target');
+					onClick: () =>
+						$('.btn-box-tool[data-widget="maximize"]').on('click', e => (util => util.init(util))({
+							dom: $(e.currentTarget),
+							init: util => util.dom.closest('.row').fadeOut(0b101011110, () => {
+								util
+									.dom
+									.closest('.box')
+									.toggleClass('fullwindow-document-target');
 
-											util
-												.dom
-												.closest('.row')
-												.toggleClass('fullwindow-container')
-												.fadeIn(0b101011110);
-										});
-								},
-							});
-						});
-					}
+								util
+									.dom
+									.closest('.row')
+									.toggleClass('fullwindow-container')
+									.fadeIn(0b101011110);
+							}),
+						}))
 				}
 			},
 			sidebarItem: {
-				onClick: () => {
-					$('ul.sidebar-menu a').on('click',
-						(e) => {
-							const that = $(this);
+				onClick: () => $('ul.sidebar-menu a').on('click', e => {
+					const that = $(e.currentTarget);
 
-							e.preventDefault();
-							main.ui.patcher.loading.show.apply();
+					e.preventDefault();
+					main.ui.patcher.loading.show.apply();
 
-							setTimeout(() => {
-									reff.w.location.href = that.attr('href');
-								},
-								0b1011101110 * 0b10);
-						});
-				}
+					setTimeout(() => reff.w.location.href = that.attr('href'), 0b1011101110 * 0b10);
+				})
 			}
 		},
 		utilities: {
-			GlobalRegistrar: () => {
-				reff.w[reff.registerNamespace] = {
-					ui: {
-						notification: main.utilities.notification,
-						messageBox: main.utilities.messageBox, // <== see ==> http://bootboxjs.com/examples.html,
-						modalizer: main.utilities.modalizer // <== see ==> https://saribe.github.io/eModal/#demo
-					},
-					vendor: reff.vendor,
-					utilities: {
-						callbackRunner: main.utilities.callbackRunner,
-						createUri: main.utilities.createUri,
-						numberFormat: main.utilities.numberFormat,
-						trakindoNumberFormat: main.utilities.trakindoNumberFormat,
-						userManager: main.utilities.userManager,
-						simpleExcel: main.utilities.ExcelHandler
-					}
-				};
+			GlobalRegistrar: () => reff.w[reff.registerNamespace] = {
+				ui: {
+					notification: main.utilities.notification,
+					messageBox: main.utilities.messageBox, // <== see ==> http://bootboxjs.com/examples.html,
+					modalizer: main.utilities.modalizer // <== see ==> https://saribe.github.io/eModal/#demo
+				},
+				vendor: reff.vendor,
+				utilities: {
+					callbackRunner: main.utilities.callbackRunner,
+					createUri: main.utilities.createUri,
+					numberFormat: main.utilities.numberFormat,
+					trakindoNumberFormat: main.utilities.trakindoNumberFormat,
+					userManager: main.utilities.userManager
+				}
 			},
 			getSideMenuItems: cb => {
 				let nConfig = reff.services.configurations.sideMenu;
@@ -225,27 +175,16 @@
 					});
 			},
 			// ReSharper disable UnusedParameter
-			callbackRunner: (cb, arg1, arg2, arg3) => {
-				// ReSharper restore UnusedParameter
-				const arg = arguments;
-				if (cb) cb(arg);
-			},
-			createUri: subPath => {
-				return (util => {
-					return util.init(util);
-				})({
-					subPath: subPath || '',
-					origin: window.location.origin,
-					pathname: window.location.pathname,
-					getBaseUri: util => {
-						const arrPathName = util.pathname.split('/');
-						return `${util.origin}/${1 < arrPathName.length ? arrPathName[0b1] + '/' : ''}`;
-					},
-					init: util => {
-						return `${util.getBaseUri(util)}${util.subPath}`;
-					}
-				});
-			},
+			callbackRunners: (cb, arg1, arg2, arg3) => (cb && cb(arguments)),
+			createUri: subPath => (util => util.init(util))({
+				subPath: subPath || '',
+				origin: window.location.origin,
+				pathname: window.location.pathname,
+				getBaseUri: util => (
+					apn => `${util.origin}/${1 < apn.length ? apn[0b1] + '/' : ''}`
+				)(util.pathname === '/' ? [] : util.pathname.split('/')),
+				init: util => `${util.getBaseUri(util)}${util.subPath}`
+			}),
 			numberFormat: (number, decimals, decPoint, thousandsSep) => {
 				const n = !isFinite(+number) ? 0b0 : +number;
 
@@ -253,10 +192,7 @@
 				const sep = (typeof thousandsSep === 'undefined') ? ',' : thousandsSep;
 				const dec = (typeof decPoint === 'undefined') ? '.' : decPoint;
 
-				const toFixedFix = (n, prec) => {
-					const k = Math.pow(0b1010, prec);
-					return Math.round(n * k) / k;
-				};
+				const toFixedFix = (n, prec) => (k => Math.round(n * k) / k)(Math.pow(0b1010, prec));
 
 				const s = (prec ? toFixedFix(n, prec) : Math.round(n)).toString().split('.');
 
@@ -270,107 +206,7 @@
 
 				return s.join(dec);
 			},
-			trakindoNumberFormat: (numb) => {
-				return main.utilities.numberFormat(parseFloat(numb).toFixed(0b10), 0b10, '.', ',');
-			},
-			ExcelHandler: (options) => {
-				((util) => {
-					options = $.extend({
-						title: 'Sample Excel Export',
-						sheetName: 'Sample Sheet',
-						headers: util.sampleHeaders(0b101),
-						rows: util.sampleRows(0b101, 0b101),
-						filename: 'ExcelExport',
-						author: 'Developer Trakindo',
-						createdDate: new Date()
-					}, options);
-
-					util.createExcel(options);
-				})({
-					createExcel: (opt) => {
-						const xlu = reff.vendor.excel.utils;
-						const wb = xlu.book_new();
-
-						wb.Props = {
-							Title: opt.title,
-							Subject: opt.sheetName,
-							Author: opt.author,
-							CreatedDate: opt.createdDate
-						};
-
-						wb.SheetNames.push(opt.sheetName);
-						wb.Sheets[opt.sheetName] = xlu.aoa_to_sheet(this.compileData(opt));
-
-						saveAs(
-							new Blob(
-								[
-									this.stringToArrayBuffer(reff.vendor.excel.write(
-										wb, {
-											bookType: 'xlsx',
-											type: 'binary'
-										}))
-								], {
-									type: 'application/octet-stream'
-								}
-							),
-							`${opt.filename}.xlsx`
-						);
-					},
-					compileData: (opt) => {
-						const output = [];
-
-						// Title
-						output.push([opt.title]);
-						output.push([]);
-						output.push([]);
-
-						output.push(opt.headers);
-
-						opt.rows.forEach((v) => {
-							output.push(v);
-						});
-
-						return output;
-					},
-					stringToArrayBuffer: (s) => {
-						const buf = new ArrayBuffer(s.length);
-						const view = new Uint8Array(buf);
-
-						for (
-							let i = 0b0; i < s.length; view[i] = s.charCodeAt(i) & 0b11111111,
-							i++
-						) {}
-
-						return buf;
-					},
-					sampleHeaders: (totalColumns) => {
-						const output = [];
-						for (
-							let i = 0b0; i < totalColumns; output.push(`Header ${i + 0b1}`),
-							i++
-						) {}
-
-						return output;
-					},
-					sampleRows: (totalColumns, totalRows) => {
-						const output = [];
-						for (
-							let i = 0b0; i < totalRows;
-							((k) => {
-								const row = [];
-								for (
-									let j = 0b0; j < totalRows; row.push(`Row ${k + 0b1} Col ${j + 0b1}`),
-									j++) {}
-
-								output.push(row);
-							})(i),
-							i++
-						) {}
-
-						return output;
-					}
-				});
-			},
+			trakindoNumberFormat: numb => main.utilities.numberFormat(parseFloat(numb).toFixed(0b10), 0b10, '.', ','),
 			notification: (options) => {
 				options = $.extend({
 						type: 'success',
@@ -404,19 +240,14 @@
 			messageBox: reff.vendor.bootbox,
 			modalizer: reff.vendor.eModal,
 			userManager: {
-				loginChecker: () => {
-					const sp = Cookies.get('sp');
-
-					if (!sp)
-						reff.w.location.href = `${reff.services.auth.loginWithReturn}${main.utilities.createUri()}`;
-				},
-				getProfile: (cb) => {
+				loginChecker: () => Cookies.get('sp') || (reff.w.location.href = `${reff.services.auth.loginWithReturn}${main.utilities.createUri()}`),
+				getProfile: cb => {
 					const nConfig = reff.services.configurations.userProfiler;
 					nConfig.url = main.utilities.createUri(nConfig.url);
 
 					$
 						.ajax(nConfig)
-						.done((r) => {
+						.done(r => {
 							r = JSON.parse(r.GetUserProfileCallResult);
 
 							if (r.result === true)
@@ -429,9 +260,7 @@
 
 							if (cb) cb(r);
 						})
-						// ReSharper disable UnusedParameter
-						.fail((j, t, e) => {
-							// ReSharper restore UnusedParameter
+						.fail(() => {
 							alert('Can not initialize user profile.\n\nRedirecting to login page.');
 							reff.w.location.href = `${reff.services.auth.loginWithReturn}${main.utilities.createUri()}`;
 						});
