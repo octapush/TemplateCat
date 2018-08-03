@@ -1048,6 +1048,7 @@
     <Content Include="WebAssets\lib\admin-lte\plugins\pace\pace.js" />
     <Content Include="WebAssets\lib\admin-lte\plugins\pace\pace.min.css" />
     <Content Include="WebAssets\lib\admin-lte\plugins\pace\pace.min.js" />
+    <Content Include="WebAssets\lib\bootbox\bootbox.min.js" />
     <Content Include="WebAssets\lib\bootstrap\dist\css\bootstrap-theme.css" />
     <Content Include="WebAssets\lib\bootstrap\dist\css\bootstrap-theme.min.css" />
     <Content Include="WebAssets\lib\bootstrap\dist\css\bootstrap.css" />
@@ -1669,7 +1670,8 @@
           <IISUrl>http://localhost:54569/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl />
+          <CustomServerUrl>
+          </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>

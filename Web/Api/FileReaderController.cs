@@ -1,6 +1,18 @@
-﻿using System;
+﻿// FILENAME    : FileReaderController.cs
+// ==========================================================
+//  
+// AUTHOR      : FADHLY PERMATA
+// CREATED AT  : 2018-07-09
+// 
+// ==========================================================
+
+#region REFFERENCES
+
+using System;
 using System.Web.Http;
 using Web.Utilities;
+
+#endregion
 
 namespace Web.Api
 {

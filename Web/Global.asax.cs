@@ -1,4 +1,12 @@
-﻿using System;
+﻿// FILENAME    : AssemblyInfo.cs
+// ==========================================================
+//  
+// AUTHOR      : FADHLY PERMATA
+// CREATED AT  : 2018-07-09
+// 
+// ==========================================================
+
+using System;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;

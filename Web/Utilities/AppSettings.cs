@@ -1,16 +1,12 @@
-﻿#region File Information
+﻿// FILENAME    : AppSettings.cs
+// ==========================================================
+//  
+// AUTHOR      : FADHLY PERMATA
+// CREATED AT  : 2018-07-09
+// 
+// ==========================================================
 
-// SolutionName  : PlnScatter
-// ProjectName   : PlnScatter.Web
-// FileName      : AppSettings.cs
-// ======================================
-// Author        : Fadhly Permata
-// CreatedAt     : 2018-03-23 [15:04]
-// ModifiedAt    : 2018-04-11 [15:23]
-
-#endregion
-
-#region Refference
+#region REFFERENCES
 
 using System.IO;
 using System.Web;

@@ -1,16 +1,12 @@
-﻿#region File Information
+﻿// FILENAME    : HomeController.cs
+// ==========================================================
+//  
+// AUTHOR      : FADHLY PERMATA
+// CREATED AT  : 2018-07-09
+// 
+// ==========================================================
 
-// SolutionName  : PlnScatter
-// ProjectName   : PlnScatter.Web
-// FileName      : HomeController.cs
-// ======================================
-// Author        : Fadhly Permata
-// CreatedAt     : 2018-03-23 [15:10]
-// ModifiedAt    : 2018-04-11 [15:23]
-
-#endregion
-
-#region Refference
+#region REFFERENCES
 
 using System.Web.Mvc;
 using System.Web.UI;

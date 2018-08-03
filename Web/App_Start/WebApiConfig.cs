@@ -1,5 +1,17 @@
-﻿using System.Linq;
+﻿// FILENAME    : WebApiConfig.cs
+// ==========================================================
+//  
+// AUTHOR      : FADHLY PERMATA
+// CREATED AT  : 2018-07-09
+// 
+// ==========================================================
+
+#region REFFERENCES
+
+using System.Linq;
 using System.Web.Http;
+
+#endregion
 
 namespace Web
 {
@@ -27,7 +39,7 @@ namespace Web
             config.Routes.MapHttpRoute(
                 "ApiById",
                 "api/{controller}/{id}",
-                new {id = RouteParameter.Optional,},
+                new {id = RouteParameter.Optional},
                 new {id = @"^[0-9]+$"}
             );
 
@@ -49,7 +61,7 @@ namespace Web
                 "api/{controller}/{action}/{id}",
                 new {id = RouteParameter.Optional}
             );
-            
+
 
             //config.Routes.MapHttpRoute(
             //    name: "DefaultApi",
