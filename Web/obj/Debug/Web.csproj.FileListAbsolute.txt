@@ -154,3 +154,5 @@ D:\- WorkOut\Trakindo\- Dev\- Template Trakindo\Web\bin\System.Web.Http.WebHost.
 D:\- WorkOut\Trakindo\- Dev\- Template Trakindo\Web\obj\Debug\Web.csprojResolveAssemblyReference.cache
 D:\- WorkOut\Trakindo\- Dev\- Template Trakindo\Web\obj\Debug\Web.dll
 D:\- WorkOut\Trakindo\- Dev\- Template Trakindo\Web\obj\Debug\Web.pdb
+D:\- WorkOut\Trakindo\- Dev\- Template Trakindo\Web\bin\EPPlus.dll
+D:\- WorkOut\Trakindo\- Dev\- Template Trakindo\Web\bin\EPPlus.xml

@@ -9,12 +9,32 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "ASP Compiler",
+            "label": "ASP Compiler - BUILD",
             "type": "shell",
             "command": "msbuild.exe",
             "args": [
                 "/property:GenerateFullPaths=true",
                 "/t:build"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "ASP Compiler - REBUILD",
+            "type": "shell",
+            "command": "msbuild.exe",
+            "args": [
+                "/property:GenerateFullPaths=true",
+                "/t:rebuild"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "ASP Compiler - CLEAN",
+            "type": "shell",
+            "command": "msbuild.exe",
+            "args": [
+                "/property:GenerateFullPaths=true",
+                "/t:rebuild"
             ],
             "problemMatcher": []
         }
