@@ -1,8 +1,8 @@
 ﻿[
   {
-    "Target": "Dashboard",
-    "Title": "Dashboard",
-    "Icon": "fa-heartbeat",
+    "Target": "",
+    "Title": "Home",
+    "Icon": "fa-home",
     "Childs": []
   },
   {
@@ -10,5 +10,30 @@
     "Title": "Graphs",
     "Icon": "fa-bar-chart",
     "Childs": []
+  },
+  {
+    "Target": "",
+    "Title": "Nested Menus",
+    "Icon": "fa-indent",
+    "Childs": [
+      {
+        "Target": "child1",
+        "Title": "Child 1",
+        "Icon": "",
+        "Childs": []
+      },
+      {
+        "Target": "child1",
+        "Title": "Child 2",
+        "Icon": "",
+        "Childs": []
+      },
+      {
+        "Target": "child1",
+        "Title": "Child 3",
+        "Icon": "",
+        "Childs": []
+      }
+    ]
   }
 ]

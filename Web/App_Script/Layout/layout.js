@@ -6,6 +6,11 @@
 // 
 // ==========================================================
 
+/*
+ *	FIX :
+ *
+ */
+
 ((reff) => {
 	'use strict';
 
@@ -39,7 +44,7 @@
 										`
 											<span>${v.Title}</span>
 											<span class="pull-right-container">
-												<i class="fa fa-angle-left pull-right"></i>
+												<i class="fa fa-angle-left pull-right sidebar-nested-fix-icon"></i>
 											</span>
 										`;
 
@@ -70,7 +75,7 @@
 				},
 				sidebar: {
 					setSelected: () => $(`ul.sidebar-menu a[href="${reff.w.location.href}"]`)
-						.closest('li')
+						.closest('li:not(.treeview)')
 						.addClass('active')
 				}
 			}
@@ -142,6 +147,10 @@
 			sidebarItem: {
 				onClick: () => $('ul.sidebar-menu a').on('click', e => {
 					const that = $(e.currentTarget);
+
+					const href = that.attr('href');
+					if (href === '' || href === null || href === main.utilities.createUri())
+						return;
 
 					e.preventDefault();
 					main.ui.patcher.loading.show.apply();
@@ -311,7 +320,6 @@
 		// ReSharper disable PossiblyUnassignedProperty
 		screenfull: screenfull,
 		toastr: toastr,
-		excel: XLSX,
 		bootbox: bootbox,
 		eModal: eModal
 		// ReSharper restore PossiblyUnassignedProperty
